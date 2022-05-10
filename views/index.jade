@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  h1= title
+  pre welcom #{title}
+  p Welcome to #{title}
+  a(href='sample') 押せっっっ!!!
+  p
+  a(href='fake') 押すなっっっ!!!
+
+  //- form(action='http://www.google.co.jp/search?')
+  form(method='post')
+    //- インデント欲しいみたい
+    input(type='text', name='name')
+    input(type='text', name='age')
+    input(type='submit')
+    //- form(name="add-estimation", method="post")
+    //-     div.input
+    //-         span.label Title
+    //-         input(type="text", name="title")
+    //-     div.actions
+    //-         input(type="submit", value="add")
