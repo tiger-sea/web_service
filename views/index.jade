@@ -11,9 +11,15 @@ block content
   //- form(action='http://www.google.co.jp/search?')
   form(method='post')
     //- インデント欲しいみたい
-    input(type='text', name='name')
-    input(type='text', name='age')
-    input(type='submit')
+    div
+      p Name
+      input(type='text', name='name')
+    div
+      p Age
+      input(type='text', name='age')
+    div(class='submit')
+      input(type='submit')
+      
     //- form(name="add-estimation", method="post")
     //-     div.input
     //-         span.label Title

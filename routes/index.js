@@ -1,6 +1,8 @@
 var express = require('express');
 // const app = express();
 var router = express.Router();
+var sqlite3 = require('sqlite3');
+var db = new sqlite3.Database('test.sqlite3');
 
 router
   /* GET home page. */
@@ -11,7 +13,7 @@ router
 
   .get('/sample', function(req, res, next) {
     // res.send('This is sample');
-    res.render('sample', {title:'default:sample', name: 'default:forger', age: 'default:6つ'});
+    res.render('sample', {title:'sample', name: 'forger', age: '6つ'});
   })
 
   .get('/fake', function(req, res, next) {
@@ -22,18 +24,41 @@ router
 
     var name = req.body.name;
     var age = req.body.age;
-  
-    res.render('sample', {
-      title: "結果！",
-      name: name,
-      age: age
-    });
-  
+    var date = new Date();
+    var createdtime = date.getFullYear()
+    + '/' + ('0' + (date.getMonth() + 1)).slice(-2)
+    + '/' + ('0' + date.getDate()).slice(-2)
+    + ' ' + ('0' + date.getHours()).slice(-2)
+    + ':' + ('0' + date.getMinutes()).slice(-2)
+    + ':' + ('0' + date.getSeconds()).slice(-2)
+    + '(JST)';
+    
+    if (name && age) {
+      // do something
+      db.serialize(() => {
+        // db.run("drop table if exists members");
+        // db.run("create table if not exists user(id primary key autoincrement, name text, age integer)");
+    
+          db.run(
+            'insert into user (name, age, createdtime) values (?, ?, ?)',
+            name,
+            age,
+            createdtime
+          );
+      
+          res.render('sample', {
+            title: "Sample page",
+            name: name,
+            age: age
+          });
+        });
+    } else {
+      res.render('angry', {title: 'Caution!!!'});
+    }
+
   });
 
-  // .post('/', (req, res) => {
-  //   res.send('POST request to the homepage')
-  // })
+  // db.close();
 
 module.exports = router;
 

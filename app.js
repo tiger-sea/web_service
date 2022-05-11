@@ -8,13 +8,18 @@ var sqlite3 = require('sqlite3');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
-var db = new sqlite3.Database('test.db');
+var db = new sqlite3.Database('test.sqlite3');
 var bodyParser = require('body-parser');
 
 var app = express();
 const port = 3000;
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!\nhttp://127.0.0.1:${port}`))
+
+// database setting
+// db.run("drop table if exists user");
+// db.run("create table if not exists user(id primary key autoincrement, name text, age integer)");
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
