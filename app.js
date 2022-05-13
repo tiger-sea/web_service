@@ -18,7 +18,7 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!\nhttp
 
 // database setting
 // db.run("drop table if exists user");
-// db.run("create table if not exists user(id primary key autoincrement, name text, age integer)");
+db.run("create table if not exists user(id integer primary key autoincrement, name text, age integer, createdtime text)");
 
 
 // view engine setup
@@ -30,6 +30,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/static', express.static('public'));
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

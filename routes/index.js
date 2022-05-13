@@ -16,8 +16,27 @@ router
     res.render('sample', {title:'sample', name: 'forger', age: '6つ'});
   })
 
-  .get('/fake', function(req, res, next) {
-    res.render('fake', {title: 'fake'});
+  .get('/intro', function(req, res, next) {
+    res.render('intro', {title: 'Introduction'});
+  })
+
+  .get('/all', function(req, res, next) {
+    // db.all("select * from user", (error, rows) =>{
+    //   // rows.forEach(row => console.log(row.name));
+    //   rows.forEach(row => names= row.name);
+    // });
+    var names = [];
+    var ages = [];
+    db.each("select * from user", (error, row) =>{
+      console.log(row.name, row.age);
+      names = row.name;
+      ages = row.age;
+    })
+    res.render('all', {title: 'all', names: names, ages: ages});
+  })
+
+  .get('/angry', function(req, res, next) {
+    res.render('angry', {title: 'Caution!!!'});
   })
 
   .post('/', function(req, res, next) {
@@ -49,11 +68,13 @@ router
           res.render('sample', {
             title: "Sample page",
             name: name,
-            age: age
+            age: age,
+            data: db.all
           });
         });
     } else {
-      res.render('angry', {title: 'Caution!!!'});
+      // res.render('angry', {title: 'Caution!!!'});
+      res.redirect('angry');
     }
 
   });
@@ -62,6 +83,6 @@ router
 
 module.exports = router;
 
-// .get('行きたいURL?もらったURL?', function(req, res, next) {
+// .get('相手が行きたいURL?もらったURL?', function(req, res, next) {
 //    res.render('うつしたいviewの名前')
 // } 
