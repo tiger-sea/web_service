@@ -4,6 +4,26 @@ var router = express.Router();
 var sqlite3 = require('sqlite3');
 var db = new sqlite3.Database('test.sqlite3');
 
+var ids = [];
+var names = [];
+var ages = [];
+db.all('SELECT * FROM user', (err, rows) =>{
+  if (err) {
+      console.log(err);
+      return;
+  }
+  rows.forEach((row) =>{
+    ids.push(row.id);
+    names.push(row.name);
+    ages.push(row.age);
+    console.log('id:' + row.id + ' name:' + row.name + ' age:' + row.age);
+  })
+  console.log(ids);
+  console.log(names);
+  console.log(ages);
+});
+
+
 router
   /* GET home page. */
   .get('/', function(req, res, next) {
@@ -25,14 +45,9 @@ router
     //   // rows.forEach(row => console.log(row.name));
     //   rows.forEach(row => names= row.name);
     // });
-    var names = [];
-    var ages = [];
-    db.each("select * from user", (error, row) =>{
-      console.log(row.name, row.age);
-      names = row.name;
-      ages = row.age;
-    })
-    res.render('all', {title: 'all', names: names, ages: ages});
+
+    console.log(names, ages);
+    res.render('all', {title: 'all', names: names, ages: ages, ids: ids});
   })
 
   .get('/angry', function(req, res, next) {
@@ -80,7 +95,6 @@ router
   });
 
   // db.close();
-
 module.exports = router;
 
 // .get('相手が行きたいURL?もらったURL?', function(req, res, next) {

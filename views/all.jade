@@ -3,4 +3,18 @@ extends layout
 block content
   h1= title
   a(href="/") To Home
+  component = [ids, names, ages]
   h1 I can display all elements at console, but...
+  p 
+  ul.id ID 
+    each id in ids
+      li #{id}
+  ul.name Name
+    each name in names
+      li #{name}
+  ul.age Age
+    each age in ages 
+      li #{age}
+  ul ALL 
+    - for (var i = 0; i < ids.length; i++)
+        li ID: #{ids[i]} Name: #{names[i]} Age: #{ages[i]}

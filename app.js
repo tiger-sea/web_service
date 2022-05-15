@@ -20,7 +20,6 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!\nhttp
 // db.run("drop table if exists user");
 db.run("create table if not exists user(id integer primary key autoincrement, name text, age integer, createdtime text)");
 
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
