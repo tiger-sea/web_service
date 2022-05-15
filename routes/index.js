@@ -6,6 +6,9 @@ var db = new sqlite3.Database('test.sqlite3');
 
 router
   /* GET home page. */
+  .get('/index.html', function(req, res, next) {
+    res.render('index', {title: 'index'});
+  })
   .get('/', function(req, res, next) {
     res.render('index', {title: 'index'});
     // res.json({ message: "Hello World!" });
