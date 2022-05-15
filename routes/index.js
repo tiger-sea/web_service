@@ -7,7 +7,10 @@ var db = new sqlite3.Database('test.sqlite3');
 var ids = [];
 var names = [];
 var ages = [];
+console.log("called");
+
 db.all('SELECT * FROM user', (err, rows) =>{
+  console.log('db.all')
   if (err) {
       console.log(err);
       return;
@@ -16,27 +19,28 @@ db.all('SELECT * FROM user', (err, rows) =>{
     ids.push(row.id);
     names.push(row.name);
     ages.push(row.age);
-    console.log('id:' + row.id + ' name:' + row.name + ' age:' + row.age);
+    // console.log('id:' + row.id + ' name:' + row.name + ' age:' + row.age);
   })
-  console.log(ids);
-  console.log(names);
-  console.log(ages);
+  // console.log(ids);
+  // console.log(names);
+  // console.log(ages);
 });
-
 
 router
   /* GET home page. */
   .get('/', function(req, res, next) {
+    console.log('get /');
     res.render('index', {title: 'index'});
     // res.json({ message: "Hello World!" });
   })
 
   .get('/sample', function(req, res, next) {
-    // res.send('This is sample');
+    console.log('get /sample')
     res.render('sample', {title:'sample', name: 'forger', age: '6つ'});
   })
 
   .get('/intro', function(req, res, next) {
+    console.log('get /intro')
     res.render('intro', {title: 'Introduction'});
   })
 
@@ -45,12 +49,12 @@ router
     //   // rows.forEach(row => console.log(row.name));
     //   rows.forEach(row => names= row.name);
     // });
-
     console.log(names, ages);
     res.render('all', {title: 'all', names: names, ages: ages, ids: ids});
   })
 
   .get('/angry', function(req, res, next) {
+    console.log('angry')
     res.render('angry', {title: 'Caution!!!'});
   })
 
@@ -70,31 +74,44 @@ router
     if (name && age) {
       // do something
       db.serialize(() => {
-        // db.run("drop table if exists members");
-        // db.run("create table if not exists user(id primary key autoincrement, name text, age integer)");
-    
           db.run(
             'insert into user (name, age, createdtime) values (?, ?, ?)',
             name,
             age,
             createdtime
           );
+
+          ids = [];
+          names = [];
+          ages = [];
+          console.log("called");
+
+          db.all('SELECT * FROM user', (err, rows) =>{
+            console.log('db.all')
+            if (err) {
+                console.log(err);
+                return;
+            }
+            rows.forEach((row) =>{
+              ids.push(row.id);
+              names.push(row.name);
+              ages.push(row.age);
+            })
+          });
+
       
           res.render('sample', {
             title: "Sample page",
             name: name,
             age: age,
-            data: db.all
           });
         });
     } else {
-      // res.render('angry', {title: 'Caution!!!'});
       res.redirect('angry');
     }
 
   });
 
-  // db.close();
 module.exports = router;
 
 // .get('相手が行きたいURL?もらったURL?', function(req, res, next) {
