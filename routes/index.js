@@ -59,9 +59,8 @@ router
   })
 
   .post('/', function(req, res, next) {
-
     var name = req.body.name;
-    var age = req.body.age;
+    var age = Number(req.body.age);
     var date = new Date();
     var createdtime = date.getFullYear()
     + '/' + ('0' + (date.getMonth() + 1)).slice(-2)
@@ -71,6 +70,7 @@ router
     + ':' + ('0' + date.getSeconds()).slice(-2)
     + '(JST)';
     
+    console.log(typeof(name), typeof(age));
     if (name && age) {
       // do something
       db.serialize(() => {
@@ -109,8 +109,12 @@ router
     } else {
       res.redirect('angry');
     }
+  })
 
-  });
+  .get('/test', function(req, res, next) {
+    console.log('test')
+    res.render('test', {title: 'Caution!!!'});
+  })
 
 module.exports = router;
 
