@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  h1= title
+  form(method='post')
+    div
+      p Email
+      input(type='text', name='email')
+    div
+      p Password
+      input(type='text', name='password')
+    p
+    div(class='submit')
+        input(type='submit')
+  a(href="/") To Home

@@ -2,13 +2,15 @@ extends layout
 
 block content
   h1= title
-  pre welcom #{title}
+  //- pre welcom #{title}
   p Welcome to #{title}
   a(href='intro') To intro
   p
   a(href='sample') To sample show view
   p
   a(href='all') To all
+  p
+  a(href='login') To login
 
   //- form(action='http://www.google.co.jp/search?')
   form(method='post')
@@ -19,8 +21,13 @@ block content
     div
       p Age
       input(type='text', name='age')
+    div
+      p Email
+      input(type='text', name='email')
+    div
+      p Password
+      input(type='text', name='password')
     div(class='submit')
       input(type='submit')
-
   p 
   a(href='angry') To angry

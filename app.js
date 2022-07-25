@@ -4,21 +4,27 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var sqlite3 = require('sqlite3');
+const passport = require('./auth.js');
+const session = require('express-session');
+const flash = require('connect-flash');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
-var db = new sqlite3.Database('test.sqlite3');
+var db = new sqlite3.Database('User.sqlite3');
 var bodyParser = require('body-parser');
 
 var app = express();
-const port = 3000;
+const port = process.env.PORT || 3000
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!\nhttp://127.0.0.1:${port}`))
+app.listen(port, () => console.log(`App listening on port ${port}!\nhttp://127.0.0.1:${port}`))
 
 // database setting
-// db.run("drop table if exists user");
-db.run("create table if not exists user(id integer primary key autoincrement, name text, age integer, createdtime text)");
+// db.run("drop table if exists user"); warning
+db.serialize(() => {
+  db.run("create table if not exists user(id integer primary key autoincrement, name string, age integer,\
+    email string, password string, createdtime string)");
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
